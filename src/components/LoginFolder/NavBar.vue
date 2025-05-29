@@ -1,0 +1,140 @@
+<script setup>
+  import { onMounted ,onUpdated,ref } from 'vue';
+  //import axios from 'axios';
+  import axiosInstance from '../../axios';
+
+  defineProps({
+    bookuser: String,
+    logout: false
+  })
+
+  //emit is to update the parent and child component with the bookuser property
+  const emit = defineEmits(['update:bookuser']);
+
+  const isAuthenticated = ref('false');
+
+  onMounted( async () => {
+
+    // const resp = await axios.get('http://localhost:8585/user',{
+    // withCredentials: true
+    // })
+    // .then((response) => {
+    // if (response.status === 200) {
+    //   console.log("query ok");
+      
+    //   if (response.data.role.split("-")[1] === 'ADMIN') {
+    //     isAdmin.value = true;
+    //   };
+
+    //   console.log("response data from ok http " + response.data.username + " " + response.data.role);
+
+    //   isAuthenticated.value = true;
+    //   emit('update:bookuser', response.data.username);
+    // }
+    // })
+    // .catch((error) => {
+    // console.log("error in axios get" + error);
+    // });
+    const resp = await axiosInstance.get('/user');
+    if (resp.status === 200) {
+      console.log("HTTP request OK");
+    }
+    let data = resp.data;
+    if (data.role.split("-")[1] === 'ADMIN') {
+        isAdmin.value = true;
+    };
+    console.log("response data from ok http " + data.username + " " + data.role);
+    isAuthenticated.value = true;
+    emit('update:bookuser', data.username);
+  
+  });
+
+  
+
+</script>
+
+
+<template>
+  <!-- <h2>You are logged in</h2> -->
+   <!-- <h4>{{ bookuser }}</h4> -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <router-link to="/" class="nav-item" >Αρχική</router-link>
+        <!-- <router-link v-if="isAuthenticated" to="/room" class="nav-item">Lab</router-link>
+        <router-link v-if="isAdmin" to="/admin" class="nav-item">Admin</router-link> -->
+      </div>
+      <div class="auth-buttons">
+        <!-- <button v-if="isAuthenticated" @click="logout" class="btn">Logout</button> -->
+         <router-link v-if="isAuthenticated === true && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link>
+        <router-link  v-else to="/login" class="btn">Σύνδεση</router-link>
+      </div>
+    </nav>
+    
+  </template>
+  
+
+  
+  <style scoped>
+  /* Fixed Top Navigation Bar */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: #bb6060;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+    
+    /* Navigation Container */
+    .nav-container {
+        display: flex;
+        gap: 15px;
+    }
+    
+    /* Navigation Links */
+    .nav-item {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-item:hover {
+        color: #1e90ff;
+    }
+    
+    /* Auth Buttons */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease;
+    }
+    
+    .btn:hover {
+        background: #0056b3;
+    }
+    
+    /* Push Page Content Below Navbar */
+    body {
+        padding-top: 60px; /* Same as navbar height */
+    }
+  </style>
+  
