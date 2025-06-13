@@ -1,16 +1,32 @@
-import axios from 'axios';
 
-const API_BASE_URL = "http://147.102.246.150:8585/auth";
+import Keycloak from 'keycloak-js';
 
-class AuthService {
-    
-    register(user) {
-        return axios.post(`${API_BASE_URL}/register`, user);
+const keycloak = new Keycloak({
+  url: 'http://localhost:9090/realms',
+  realm: 'devrealm',
+  clientId: 'bookClient'
+});
+
+export const initKeycloak = async () => {
+  try {
+    const authenticated = await keycloak.init({
+      onLoad: 'login-required', // Redirect to Keycloak login
+      pkceMethod: 'S256',
+      checkLoginIframe: false
+    });
+
+    if (!authenticated) {
+      console.warn("Not authenticated!");
+      await keycloak.login();
     }
 
-    login(user) {
-        return axios.post(`${API_BASE_URL}/login`, user);
-    }
-}
+    return keycloak;
+  } catch (error) {
+    console.error("Authentication Failed", error);
+    throw error;
+  }
+};
 
-export default AuthService;
+export const getToken = () => keycloak.token;
+export const isAuthenticated = () => !!keycloak.token;
+export const logout = () => keycloak.logout({ redirectUri: window.location.origin });
