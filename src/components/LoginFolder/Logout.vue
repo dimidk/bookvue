@@ -1,19 +1,23 @@
 <script setup>
 import { ref } from 'vue';
 import NavBar from './NavBar.vue';
+import keycloak, { isAuthenticated, getToken } from '../../auth/AuthService';
 
 // defineProps({
 //     logout: true
 // })
 
-const logout = ref(true);
+// const logout = ref(true);
+
+const logout = () => keycloak.logout({redirectUri: "http://localhost/logout"});
+
 </script>
 
 <template>
 <div>
     <h2>Ο χρήστης αποσυνδέθηκε επιτυχώς!</h2>
     <!-- <router-link v-if="logout === true" to="/login">Login</router-link> -->
-    <NavBar v-model:logout="logout"/>
+       <NavBar v-model:logout="logout"/>
 </div>
     
 

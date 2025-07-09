@@ -4,6 +4,7 @@ import Calendar from './Calendar.vue';
 import NavBar from '../LoginFolder/NavBar.vue';
 import Header from '../LoginFolder/Header.vue';
 import axiosInstance from '../../axios';
+import keycloak, {getToken, isAuthenticated} from '../../auth/AuthService';
 
 const lab = ref([]);
 const user = ref('');
@@ -19,7 +20,8 @@ onMounted (async () => {
 
     lab.value = resp.data;
 
-    user.value;
+    user.value = keycloak.idTokenParsed.preferred_username;
+    console.log("user logged is ",user.value);
 
  });
 
@@ -35,7 +37,8 @@ onMounted (async () => {
  });
 
 
-console.log("which user is logged " + user.value);
+// console.log("which user is logged " + user.value);
+console.log("which user is logged in:" + keycloak.idTokenParsed.preferred_username);
 </script>
 
 <template>
@@ -43,8 +46,9 @@ console.log("which user is logged " + user.value);
     <br>
     <h2>Κράτηση Αίθουσας - Εργαστήριο
     </h2>
-    <NavBar v-model:bookuser="user" :logout="false"/>
-    <section><p><b>Χρήστης:  </b><i>{{ user }}</i></p>
+    <NavBar v-model:bookuser="keycloak.idTokenParsed.preferred_username" :logout="false"/>
+    <!-- <section><p><b>Χρήστης:  </b><i>{{ user }}</i></p> -->
+    <section><p><b>Χρήστης:  </b><i>{{ keycloak.idTokenParsed.preferred_username }}</i></p>
         <p><b>Εργαστήριο:  <u>{{ showRoom }}</u></b>
     </p></section>
     <section>

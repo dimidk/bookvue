@@ -2,16 +2,19 @@
   import { onMounted ,onUpdated,ref } from 'vue';
   //import axios from 'axios';
   import axiosInstance from '../../axios';
+  import keycloak, { getToken, isAuthenticated} from '../../auth/AuthService';
 
-  defineProps({
+  const props = defineProps({
     bookuser: String,
     logout: false
   })
 
+  
   //emit is to update the parent and child component with the bookuser property
   const emit = defineEmits(['update:bookuser']);
 
-  const isAuthenticated = ref('false');
+  // const isAuthenticated = ref('false');
+  // const auth = ref('false');
 
   onMounted( async () => {
 
@@ -38,18 +41,36 @@
     const resp = await axiosInstance.get('/user');
     if (resp.status === 200) {
       console.log("HTTP request OK");
-    }
-    let data = resp.data;
-    if (data.role.split("-")[1] === 'ADMIN') {
-        isAdmin.value = true;
-    };
-    console.log("response data from ok http " + data.username + " " + data.role);
-    isAuthenticated.value = true;
-    emit('update:bookuser', data.username);
-  
-  });
 
-  
+      let data = resp.data;
+      if (data.role.split("-")[1] === 'ADMIN') {
+          isAdmin.value = true;
+      };
+      console.log("response data from ok http " + data.username + " " + data.role);
+      
+      emit('update:bookuser', data.username);
+
+    }
+    else {
+      //keycloak.clearToken();
+      keycloak.logout();
+      //keycloak.redirectUri("http://localhost:5173/logout");
+    }
+    
+   
+  });
+// const auth  = ref('');
+
+// if (keycloak.authenticated) {
+//   auth.value = true;
+// }
+// else {
+//   auth.value = false;
+// }
+
+const auth = ref(keycloak.authenticated);
+
+console.log("user logged in that is in props in NavBar ",props.bookuser,keycloak.authenticated,auth.value);
 
 </script>
 
@@ -65,7 +86,8 @@
       </div>
       <div class="auth-buttons">
         <!-- <button v-if="isAuthenticated" @click="logout" class="btn">Logout</button> -->
-         <router-link v-if="isAuthenticated === true && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link>
+         <!-- <router-link v-if="auth === true && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link> -->
+        <router-link v-if="isAuthenticated() && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link>  
         <router-link  v-else to="/login" class="btn">Σύνδεση</router-link>
       </div>
     </nav>

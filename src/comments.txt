@@ -1,0 +1,6 @@
+#install vite and create project
+#npm init vite@latest bookvue
+#then go to project's directory
+#install dev server and run the project
+#npm install
+#npm run dev

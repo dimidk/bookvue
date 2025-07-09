@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, withDirectives } from 'vue';
+import keycloak, {getToken, isAuthenticated} from '../../auth/AuthService';
 import Admin from '../views/Admin.vue';
 import Room from '../views/Room.vue';
 
@@ -7,15 +8,13 @@ import Room from '../views/Room.vue';
 import axiosInstance from '../../axios';
 
 
-const isAuthenticated = ref('false');
+// const isAuthenticated = ref('false');
 const isAdmin = ref('false');
 const user = ref('');
 //const loginUser = ref('ADMIN');
 
-
-// const logout = () => {
-
-// };
+const auth = isAuthenticated();
+console.log("authenticated user",auth);
 
 onMounted( async () => {
 
@@ -40,6 +39,8 @@ onMounted( async () => {
   //   console.log("error in axios get" + error);
   // });
 
+  user.value = keycloak.idTokenParsed.preffered_username;
+
   const resp = await axiosInstance.get('/user');
   if (resp.status === 200) {
     console.log("query OK");
@@ -48,9 +49,9 @@ onMounted( async () => {
   if (data.role.split("-")[1] === 'ADMIN') {
     isAdmin.value = true;
   }
-  isAuthenticated.value = true;
-  user.value = data.username;
-  console.log("user and authentication:", user.value,isAuthenticated.value);
+  // isAuthenticated.value = true;
+  // user.value = data.username;
+  console.log("user and authentication:", user.value,auth);
 
 });
 
@@ -109,11 +110,11 @@ onMounted( async () => {
 <nav class="navbar">
       <div class="nav-container">
         <router-link to="/" class="nav-item">Αρχική</router-link>
-        <router-link v-if="isAuthenticated" to="/room" class="nav-item">Εργαστήριο</router-link>
+        <router-link v-if="isAuthenticated()" to="/room" class="nav-item">Εργαστήριο</router-link>
         <router-link v-if="isAdmin === true" to="/admin" class="nav-item">Admin</router-link>
       </div>
       <div class="auth-buttons">
-        <router-link v-if="isAuthenticated" to="/logout" class="btn">Αποσύνδεση
+        <router-link v-if="auth" to="/logout" class="btn">Αποσύνδεση
             <!-- <button class="btn">Logout</button> -->
         </router-link>
         <router-link v-else to="/login" class="btn">Σύνδεση</router-link>
