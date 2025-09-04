@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import NavBar from './NavBar.vue';
-import keycloak, { isAuthenticated, getToken } from '../../auth/AuthService';
+import keycloak, { isAuthenticated, getToken, LogOut } from '../../auth/AuthService';
 
 // defineProps({
 //     logout: true
@@ -9,7 +9,10 @@ import keycloak, { isAuthenticated, getToken } from '../../auth/AuthService';
 
 // const logout = ref(true);
 
-const logout = () => keycloak.logout({redirectUri: "http://localhost/logout"});
+//const logout = () => keycloak.logout({redirectUri: "http://localhost:9090/realms/devrealm/protocol/openid-connect/logout?"});
+
+
+const logout = LogOut();
 
 </script>
 

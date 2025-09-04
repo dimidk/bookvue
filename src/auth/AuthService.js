@@ -30,6 +30,16 @@ export const initKeycloak = async () => {
 };
 
 
+export const updateToken = (successCallback) => {
+  keycloak.updateToken(2).then(successCallback).catch(doLogin);}
+
+export const doLogin = keycloak.login;
+
+export const isLoggedIn = () => !!keycloak.token;
+export const LogOut = () => keycloak.logout({redirectUri: "http://localhost:5173"});
+
+
+
 export default keycloak;
 export const getToken = () => keycloak.token;
 export const isAuthenticated = () => !!keycloak.token;
