@@ -6,6 +6,7 @@ import Register from '../components/LoginFolder/Register.vue';
 import Room from '../components/views/Room.vue';
 import Calendar from '../components/views/Calendar.vue';
 import Header from '../components/LoginFolder/Header.vue';
+import Admin from '../components/views/Admin.vue';
 import keycloak, { getToken, initKeycloak, isAuthenticated } from '../auth/AuthService';
 
 //changes to redirect to application. So far just logged in. I want to have a token and with this token to navigate between vues
@@ -20,6 +21,7 @@ const routes = [
   { path: '/logout', component: Logout },
   { path: '/register', component: Register },
   // { path: '/header', component: Header },
+  { path: '/admin', component: Admin },
   { path: '/room', component: Room },
   { path: '/calendar', component: Calendar }
 ];
