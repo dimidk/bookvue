@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, reactive } from 'vue';
-import keycloak, {getToken, isAuthenticated} from '../../auth/AuthService';
+import keycloak, { getToken, isAuthenticated, LogOut } from '../../auth/AuthService';
 import axiosInstance from '../../axios';
 
 defineProps({
