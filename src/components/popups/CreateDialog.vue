@@ -59,6 +59,8 @@ onMounted( () => {
   //   static: true,
   // });
 
+  
+
   newStartDate.value;
   newEndDate.value;
  // emit('update:details'.props.details);

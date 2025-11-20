@@ -19,6 +19,7 @@ const props = defineProps({
 const title = ref('');
 const start = ref('');
 const end = ref('');
+const isAdmin = ref('false');
 
 const eventToShow = reactive({
 
@@ -35,40 +36,17 @@ const eventToShow = reactive({
 const dialog=ref(null);
 
 
-// onMounted( () => {
-//     flatpickr(eventToShow.start, {
-//     enableTime: true,
-//     time_24hr: true,
-//     dateFormat: "d-m-Y H:i",
-//     defaultDate: eventToShow.start || null,
-//     // static: false,
-//     allowInput: true,
-//     appendTo: document.querySelector('dialog'),
-//     static: true,
-//     // appendTo: document.body
-//   });
-//   flatpickr("#endDateFromCal", {
-//     enableTime: true,
-//     time_24hr: true,
-//     dateFormat: "d-m-Y H:i",
-//     defaultDate: eventToShow.end || null,
-//     allowInput: true,
-//     appendTo: document.querySelector('dialog'),
-//     static: true,
-//   });
-//   flatpickr("#newStartDate", {
-//     dateFormat: "d-m-Y",
-//     allowInput: true,
-//     appendTo: document.querySelector('dialog'),
-//     static: true,
-//   });
-//   flatpickr("#newEndDate", {
-//     dateFormat: "d-m-Y",
-//     allowInput: true,
-//     appendTo: document.querySelector('dialog'),
-//     static: true,
-//   });
-// })
+onMounted( async () => {
+const resp = await axiosInstance.get('/user');
+    if (resp.status === 200) {
+      let data = resp.data;
+      let role = data.role;
+      
+      if (role === '[ROLE_ADMIN]') {
+          isAdmin.value = 'true';
+      };
+    }
+});
 
 const openDialog = async () => {
 
@@ -130,7 +108,7 @@ watch(props.event, (newEventToShow) => {
 function updateEvent(arg) {
 
 
-    if (props.bookuser !== eventToShow.bookusername) {
+    if (props.bookuser !== eventToShow.bookusername && isAdmin.value === 'false') {
         alert("You are not authorized to update the event");
     }
     else {
@@ -243,7 +221,7 @@ async function deleteEvent() {
         console.log("response bookuser and eventToDelete bookuser "+ data.bookusername + " " + props.event.bookusername);
         console.log("response data id and eventToShow id",data.id,eventToShow.id);
 
-        if (data.bookusername !== props.bookuser) {
+        if (data.bookusername !== props.bookuser && isAdmin.value === 'false') {
             alert("You are not authorized to delete");
         }
 

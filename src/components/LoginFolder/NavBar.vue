@@ -2,12 +2,15 @@
   import { onMounted ,onUpdated,ref } from 'vue';
   //import axios from 'axios';
   import axiosInstance from '../../axios';
+  import Error from './Error.vue';
   import keycloak, { getToken, isAuthenticated} from '../../auth/AuthService';
 
   const props = defineProps({
     bookuser: String,
     logout: false
   })
+
+  const isAdmin = ref('false');
 
   
   //emit is to update the parent and child component with the bookuser property
@@ -43,10 +46,13 @@
       console.log("HTTP request OK");
 
       let data = resp.data;
-      if (data.role.split("-")[1] === 'ADMIN') {
-          isAdmin.value = true;
+      let role = data.role;
+      
+      if (role === '[ROLE_ADMIN]') {
+          isAdmin.value = 'true';
       };
       console.log("response data from ok http " + data.username + " " + data.role);
+      console.log("isAdmin is "+isAdmin.value)
       
       emit('update:bookuser', data.username);
 
@@ -81,8 +87,9 @@ console.log("user logged in that is in props in NavBar ",props.bookuser,keycloak
     <nav class="navbar">
       <div class="nav-container">
         <router-link to="/" class="nav-item" >Αρχική</router-link>
-        <!-- <router-link v-if="isAuthenticated" to="/room" class="nav-item">Lab</router-link>
-        <router-link v-if="isAdmin" to="/admin" class="nav-item">Admin</router-link> -->
+        <!-- <router-link v-if="isAdmin === 'true'" to="/admin" class="nav-item" v-model:adminName="keycloak.idTokenParsed.preferred_username"
+                            :administrator="true">Administrator</router-link> -->
+        <router-link v-if="isAdmin === 'true'" to="/admin" class="nav-item">Administrator</router-link>
       </div>
       <div class="auth-buttons">
         <!-- <button v-if="isAuthenticated" @click="logout" class="btn">Logout</button> -->

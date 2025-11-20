@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 // import { defineProps } from 'vue';
 
-defineProps({
+const props = defineProps({
     message: String
 });
 

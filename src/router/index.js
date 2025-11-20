@@ -7,6 +7,7 @@ import Room from '../components/views/Room.vue';
 import Calendar from '../components/views/Calendar.vue';
 import Header from '../components/LoginFolder/Header.vue';
 import Admin from '../components/views/Admin.vue';
+import Error from '../components/LoginFolder/Error.vue';
 import keycloak, { getToken, initKeycloak, isAuthenticated } from '../auth/AuthService';
 
 //changes to redirect to application. So far just logged in. I want to have a token and with this token to navigate between vues
@@ -18,6 +19,7 @@ const routes = [
   // { path: '/', component: StartPage },
   { path: '/', component: Room },
   // { path: '/login', component: Login },
+  { path: '/error', component: Error },
   { path: '/logout', component: Logout },
   { path: '/register', component: Register },
   // { path: '/header', component: Header },
@@ -49,11 +51,11 @@ router.beforeEach(async (to) => {
 
     console.log("token attributes ", keycloak.idTokenParsed.acr);
     console.log("token attributes ", keycloak.idTokenParsed.amr);
-    console.log("token attributes ", keycloak.idTokenParsed.aud);
+    console.log("token attributes keycloak client ", keycloak.idTokenParsed.aud);
     console.log("token attributes authentication time ", keycloak.idTokenParsed.auth_time);
     console.log("token attributes ", keycloak.idTokenParsed.azp);
     console.log("token attributes expires ", keycloak.idTokenParsed.exp);
-    console.log("token attributes ", keycloak.idTokenParsed.iat);
+    console.log("token attributes time", keycloak.idTokenParsed.iat);
     console.log("token attributes ", keycloak.idTokenParsed.iss);
     console.log("token attributes ", keycloak.idTokenParsed.resource_access);
   }

@@ -38,6 +38,7 @@ const text = ref('');
 const dialog = ref(null);
 const dialogDet = ref(null);
 const dialogManual = ref(null);
+const isAdmin = ref('false');
 
 const calendarPlugins = [dayGridPlugin,timeGridPlugin,interactivePlugin];
 const emit = defineEmits(['update:selectedRoom']);
@@ -57,6 +58,17 @@ onMounted(async () => {
 
     emit('update:selectedRoom', props.selectedRoom);
     //calAPI.render();
+
+    const resp = await axiosInstance.get('/user');
+    if (resp.status === 200) {
+      let data = resp.data;
+      let role = data.role;
+      
+      if (role === '[ROLE_ADMIN]') {
+          isAdmin.value = 'true';
+      };
+      
+    }
 
 });
 
@@ -89,7 +101,8 @@ async function changeTimeSlot(arg) {
         console.log("record found with data "+response.data.bookusername);
         let data = response.data;
 
-        if (recordBook.bookusername !== data.bookusername) {
+        // 
+        if (recordBook.bookusername !== data.bookusername && isAdmin.value === 'false') {
             alert("You are not authorized to change time in this event!");
         //    calAPI.render();
 

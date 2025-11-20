@@ -53,7 +53,8 @@ const registerForm = async () => {
 
     await axiosInstance.post('/auth/register',userObj);
 
-    router.push('/login');
+    //router.push('/login');
+    router.push('/room');
 };
 
 const checkingEmail =() => {
