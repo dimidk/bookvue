@@ -139,7 +139,8 @@ console.log("props "+ props.bookuser + " "+ props.details.start + " " +props.det
         //let strObj = JSON.stringify(valueList);
 
         let strObj = valueList.map(obj => 
-          `title: ${obj.title},
+          `labname: ${obj.labname},
+           title: ${obj.title},
            start: ${obj.start},
            end: ${obj.end}`).join(' ; ');
         console.log(`str obj ${strObj}`);

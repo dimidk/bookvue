@@ -8,6 +8,7 @@ import listPlugin from '@fullcalendar/list';
 import CreateDialog from '../popups/CreateDialog.vue';
 import EventDetails from '../popups/EventDetails.vue';
 import HelpPage from '../popups/HelpPage.vue';
+import DeleteDialog from '../popups/DeleteDialog.vue';
 
 //import { render } from '@fullcalendar/core/preact.js';
 import axiosInstance from '../../axios';
@@ -38,6 +39,7 @@ const text = ref('');
 const dialog = ref(null);
 const dialogDet = ref(null);
 const dialogManual = ref(null);
+const dialogDel = ref(null);
 const isAdmin = ref('false');
 
 const calendarPlugins = [dayGridPlugin,timeGridPlugin,interactivePlugin];
@@ -55,6 +57,7 @@ onMounted(async () => {
     dialog.value;
     dialogDet.value;
     dialogManual.value;
+    dialogDel.value;
 
     emit('update:selectedRoom', props.selectedRoom);
     //calAPI.render();
@@ -139,6 +142,10 @@ async function changeTimeSlot(arg) {
 
 };
 
+function deletingRecords(arg) {
+
+    
+}
 
 
 
@@ -182,11 +189,12 @@ async function showDetails(arg) {
 
 }
 
-function deletingEvent(arg) {
+const deletingEvent = () => {
 
     //showDetails(arg);
-    alert("Under Construction....");
+    // alert("Under Construction....");
 
+    dialogDel.value.openDialog();
 }
 
 function underConstruction(arg) {
@@ -251,6 +259,7 @@ const showManual = () => {
  <CreateDialog ref="dialog" :bookuser="bookuser" :details="eventDetails"/>
  <EventDetails ref="dialogDet" v-if="text !== ''" :bookuser="bookuser" :event="details"/>
  <HelpPage ref="dialogManual" />
+ <DeleteDialog ref="dialogDel" :bookuser="bookuser" />
  <section>
     <button @click="newBooking" class="btn"><i>Νέα Κράτηση</i></button>
     <hr>
@@ -301,7 +310,7 @@ const showManual = () => {
                  eventClick: showDetails,
                  eventChange: changeTimeSlot,
                  eventAdd: test,
-                 eventDrop: deletingEvent,
+                 eventDrop: deletingRecords,
                  renderEvent: showComments
              }"
                />
