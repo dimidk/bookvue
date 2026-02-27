@@ -13,7 +13,8 @@ const props = defineProps({
         id: String,
         title: String,
         start: String,
-        end: String
+        end: String,
+        labname: String
     }
 });
 
@@ -77,7 +78,7 @@ console.log("props "+ props.bookuser + " "+ props.details.start + " " +props.det
     start: props.details.start.replace('T', ' '),
     end: props.details.end.replace('T', ' '),
     
-    labname: '',
+    labname: props.details.labname,
     
     labusername: ''
 
@@ -107,11 +108,17 @@ console.log("props "+ props.bookuser + " "+ props.details.start + " " +props.det
   async function addEventForm() {
 
     console.log("newbooking " + newBooking.bookusername + " " + newBooking.labusername);
-    console.log("detail transfer " + props.details.id + " "+ props.details.start + " " + props.details.end);
+    console.log("detail transfer " + props.details.id + " "+ props.details.start + " " + props.details.end + " " + props.details.labname);
     console.log("newbooking continue data details " + newBooking.id + " " + newBooking.start + " " + newBooking.end);   
 
     newBooking.start = newBooking.start.slice(0,16).replace('T',' ');
     newBooking.end = newBooking.end.slice(0,16).replace('T',' ');
+
+    //προστέθηκε το labname να το παίρνει απο τα props gia na min kataxorei pali o xristis
+    //την πληροφορία του ΔΕΠΥ ξανά, αφού αυτή υπάρχει.
+    newBooking.labname =  props.details.labname;
+    console.log("labname τησ κράτησης" + newBooking.labname);
+    
 
     if (recursionFields.value === true) {
 
@@ -229,11 +236,11 @@ console.log("props "+ props.bookuser + " "+ props.details.start + " " +props.det
             <input id="endDateFromCal" type="datetime-local" class="text ui-widget-content ui-corner-all"
                 v-model="newBooking.end" />
             </div><br>
-            <div>
+            <!-- <div>
             <label for="labname"><b>Εργαστήριο: </b></label>
             <input  type="text" placeholder="....ΔΕΠΥ Α, ΔΕΠΥ Β, ΔΕΠΥ Γ" class="text ui-widget-content ui-corner-all"
                      v-model="newBooking.labname"/>
-            </div><br>
+            </div><br> -->
             <div>
             <label for="labuser"><b>Υπεύθυνος: </b></label>
             <input  type="text" class="text ui-widget-content ui-corner-all" 

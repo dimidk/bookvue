@@ -81,6 +81,7 @@ watch(props.event, (newEventToShow) => {
     console.log(props.event.labusername);
 
     console.log("new event to show details");
+    console.log(newEventToShow.id);
     console.log(newEventToShow.title);
     console.log(newEventToShow.start);
     console.log(newEventToShow.end);
@@ -211,6 +212,7 @@ async function deleteEvent() {
 
     try {
         let response = await axiosInstance.post('/api/delete',eventToShow);
+        console.log("eventToShow details " + eventToShow.id);
         if (response.status === 200) {
             console.log("Http Request OK");
         }

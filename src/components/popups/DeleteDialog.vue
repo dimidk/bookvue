@@ -24,6 +24,11 @@ const closeDialog = ()  => {
 
 function deleteRecords() {
 
+    
+    
+
+
+
 }
 
 defineExpose({openDialog,closeDialog});
@@ -42,11 +47,11 @@ defineExpose({openDialog,closeDialog});
                     </div>
                     <div>
                         <label for="deleteDateStart">Ημερομηνίας Έναρξης: </label>
-                        <input id="deleteDateStart" type="datetime-local" v-model="start">
+                        <input id="deleteDateStart" type="date" v-model="start">
                     </div>
                     <div>
                         <label for="deleteDateEnd">Ημερομηνίας Λήξης: </label>
-                        <input id="deleteDateEnd" type="datetime-local" v-model="end">
+                        <input id="deleteDateEnd" type="date" v-model="end">
                     </div>
                     
                     <div>

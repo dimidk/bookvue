@@ -3,6 +3,7 @@ import { onMounted, ref, reactive, useTemplateRef } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+
 import interactivePlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import CreateDialog from '../popups/CreateDialog.vue';
@@ -33,7 +34,8 @@ const eventDetails = reactive({
     id: '',
     title: '',
     start: '',
-    end: ''
+    end: '',
+    labname: ''
 });
 const text = ref('');
 const dialog = ref(null);
@@ -228,8 +230,10 @@ async function addingNewEvent(arg) {
     eventDetails.title = arg.title;
     eventDetails.start = arg.startStr.slice(0,19);
     eventDetails.end = arg.endStr.slice(0,19);
+    //προσθέτω εδώ το ΔΕΠΥ ώστε να μην χρειάζεται ο χρήστης να το βάλει ξανά
+    eventDetails.labname = props.selectedRoom;
 
-    console.log("details prop " + eventDetails.id + " " +eventDetails.start + " " +eventDetails.end);
+    console.log("details prop " + eventDetails.id + " " +eventDetails.start + " " +eventDetails.end + " " + eventDetails.labname);
 
     dialog.value.openDialog();
 }
@@ -274,7 +278,7 @@ const showManual = () => {
                  initialView: 'timeGridWeek',
                  plugins: [timeGridPlugin,dayGridPlugin,interactivePlugin,listPlugin],
                  headerToolbar: {
-                     left: 'listWeek,timeGridWeek',
+                     left: 'listWeek,timeGridWeek,dayGridMonth',
                      center: 'title',
                      right: 'prev today next'
                  },
