@@ -12,7 +12,8 @@ export const initKeycloak = async () => {
   try {
     console.log("Authentication functioning")
     const authenticated = await keycloak.init({
-      onLoad: 'login-required' // Redirect to Keycloak login
+      onLoad: 'login-required',
+      redirectURI: window.location.origin // Redirect to Keycloak login
       // pkceMethod: 'S256',
       // checkLoginIframe: false
     });
@@ -36,7 +37,7 @@ export const updateToken = (successCallback) => {
 export const doLogin = keycloak.login;
 
 export const isLoggedIn = () => !!keycloak.token;
-export const LogOut = () => keycloak.logout({redirectUri: "http://localhost:5173"});
+export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.246.150:5173"});
 
 
 

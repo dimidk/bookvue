@@ -4,8 +4,8 @@ import  keycloak, {getToken, isAuthenticated}  from './auth/AuthService';
 
 // Create a global Axios instance with default configuration
 const axiosInstance = axios.create({
-    baseURL: 'http://147.102.246.150:8585', // Base URL for all requests
-    // withCredentials: true, // Send cookies with requests
+    baseURL: 'https://147.102.246.150:8585', // Base URL for all requests
+    withCredentials: true, // Send cookies with requests
     headers: {
         'Authorization': 'Bearer',
         // 'Content-Type': 'application/json', // Default content type
