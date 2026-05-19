@@ -6,6 +6,8 @@ import Register from '../components/LoginFolder/Register.vue';
 import Room from '../components/views/Room.vue';
 import Calendar from '../components/views/Calendar.vue';
 import Header from '../components/LoginFolder/Header.vue';
+import Login from '../components/LoginFolder/Login.vue';
+import Callback from '../components/LoginFolder/Callback.vue';
 import Admin from '../components/views/Admin.vue';
 import Error from '../components/LoginFolder/Error.vue';
 import keycloak, { getToken, initKeycloak, isAuthenticated } from '../auth/AuthService';
@@ -19,6 +21,7 @@ const routes = [
   // { path: '/', component: StartPage },
   { path: '/', component: Room },
   // { path: '/login', component: Login },
+  // { path: '/callback', component: Callback },
   { path: '/error', component: Error },
   { path: '/logout', component: Logout },
   { path: '/register', component: Register },
