@@ -6,20 +6,28 @@ const keycloak = new Keycloak({
    url: 'https://sso.it.ntua.gr/',
   //  realm: 'devrealm',
    realm: 'booking',
-  clientId: 'book-client'
+  clientId: 'book-client',
+  clientSecret: 'R2dFV@V*4bHVv9d8'
 });
 
 export const initKeycloak = async () => {
   console.log("initializing Keycloak....")
+
   try {
     console.log("Authentication functioning")
     const authenticated = await keycloak.init({
       onLoad: 'login-required',
+      flow: 'standard',
+      redirectUri: 'https://147.102.246.150:5173',
       //onLoad: 'check-sso',
-      //pkceMethod: 'S256',
+      // pkceMethod: 'S256',
       checkLoginIframe: false,
       
     });
+    console.log(keycloak.onAuthError(error));
+    console.log(keycloak.onAuthSuccess()) ;
+
+    
 
     console.log(authenticated ? 'Authenticated' : 'Problem with authentication');
 
@@ -27,7 +35,15 @@ export const initKeycloak = async () => {
       console.warn("Not authenticated!");
       await keycloak.login();
     }
+    else {
+      const mytoken = keycloak.tokenParsed;
+      console.log("user returned :",{
+        mail: token.email,
+        username: token.username
+      });
+    }
     // return authenticated;
+    
      return keycloak;
   } catch (error) {
     console.error("Authentication Failed", error);
