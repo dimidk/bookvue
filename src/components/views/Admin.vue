@@ -1,48 +1,59 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
-import NavBar from '../LoginFolder/NavBar.vue';
-import keycloak, { getToken, isAuthenticated, LogOut } from '../../auth/AuthService';
-import axiosInstance from '../../axios';
+import { onMounted, reactive, ref } from "vue";
+import NavBar from "../LoginFolder/NavBar.vue";
+import keycloak, {
+  getToken,
+  isAuthenticated,
+  LogOut,
+} from "../../auth/AuthService";
+import axiosInstance from "../../axios";
 
-const adminName = ref('');
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
+import interactivePlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
+import Calendar from "./Calendar.vue";
+
+const adminName = ref("");
 const details = reactive({
-    bookusername: '',
-    labname: ''
+  bookusername: "",
+  labname: "",
 });
 
 adminName.value = keycloak.idTokenParsed.preferred_username;
 
+onMounted(async () => {
+  const resp = await axiosInstance.get("/user");
+  let data = resp.data;
+  console.log("username role ", data.username, data.role);
+  if (resp.status === 200) {
+    console.log("HTTP request OK");
 
-onMounted( async () => {
-
-    const resp = await axiosInstance.get('/user');
-    let data = resp.data;
-    console.log("username role ", data.username,data.role);
-    if (resp.status === 200) {
-      console.log("HTTP request OK");
-
-      if (data.role === '[ROLE_ADMIN]') {
-        console.log("admin role for user");
-
-      };
-      console.log("response data from ok http " + data.username + " " + data.role);
-    }   
-
-    if (data.username === adminName.value) {
-        console.log("keycloak user and db user same");
-
+    if (data.role === "[ROLE_ADMIN]") {
+      console.log("admin role for user");
     }
+    console.log(
+      "response data from ok http " + data.username + " " + data.role,
+    );
+  }
 
+  if (data.username === adminName.value) {
+    console.log("keycloak user and db user same");
+  }
 });
 
-
-console.log("isAdmin is ",adminName.value);
-
+console.log("isAdmin is ", adminName.value);
 </script>
 
 <template>
-    <NavBar v-model:bookuser="keycloak.idTokenParsed.preferred_username" :logout="false"/>
-    <section class="section">
+  <NavBar
+    v-model:bookuser="keycloak.idTokenParsed.preferred_username"
+    :logout="false"
+  />
+
+  <section class="section">
         <h3> Administrator Jobs</h3>
     </section>
     
@@ -71,13 +82,12 @@ console.log("isAdmin is ",adminName.value);
             </div>
             
             <div>
-                <button type="submit" >Αποστολή</button>
-                
-                <!-- <button type="button" @click="deleteEvent">Διαγραφή</button>
-                <button type="button" @click="closeDialog">Κλείσιμο</button> -->
-            </div>
+                <button type="submit" >Αποστολή</button -->
+
+  <button type="button" @click="deleteEvent">Διαγραφή</button>
+                <button type="button" @click="closeDialog">Κλείσιμο</button>
+  </div>
         </fieldset>
     </form>
     </section>
-    
 </template>

@@ -2,10 +2,8 @@
 import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
-  //  url: 'https://keycloak-dev:9090/',
-   url: 'https://sso.it.ntua.gr/',
-  //  realm: 'devrealm',
-   realm: 'booking',
+  url: 'https://keycloak-dev:9090/',
+  realm: 'devrealm',
   clientId: 'book-client'
 });
 
