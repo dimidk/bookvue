@@ -20,14 +20,13 @@ export const initKeycloak = async () => {
       flow: 'standard',
       redirectUri: 'https://147.102.246.150:5173',
       //onLoad: 'check-sso',
-      // pkceMethod: 'S256',
+      pkceMethod: 'S256',
       checkLoginIframe: false,
       
     });
-    console.log(keycloak.onAuthError(error));
-    console.log(keycloak.onAuthSuccess()) ;
-
     
+
+    console.log("this for getting email ",keycloak.tokenParsed?.sub);
 
     console.log(authenticated ? 'Authenticated' : 'Problem with authentication');
 
@@ -35,18 +34,27 @@ export const initKeycloak = async () => {
       console.warn("Not authenticated!");
       await keycloak.login();
     }
-    else {
-      const mytoken = keycloak.tokenParsed;
-      console.log("user returned :",{
-        mail: token.email,
-        username: token.username
-      });
-    }
+    // else {
+    //   const mytoken = keycloak.tokenParsed;
+    //   console.log("user returned :",{
+    //     mail: mytoken.email,
+    //     username: mytoken.preferred_username
+    //   });
+    // }
     // return authenticated;
+
+    console.log("username",keycloak.tokenParsed.preferred_username);
+    console.log("email:", keycloak.tokenParsed?.email);
     
      return keycloak;
   } catch (error) {
+    const tokenInEr = keycloak.tokenParsed;
     console.error("Authentication Failed", error);
+    console.log(keycloak.tokenParsed.preferred_username);
+    console.log(keycloak.tokenParsed);
+    console.log(tokenInEr.iss,tokenInEr.aud,tokenInEr.sub);
+    console.log(keycloak.tokenParsed.iat);
+
     throw error;
   }
 };
@@ -94,4 +102,4 @@ export const getToken = () => {
 };
 
 export const isAuthenticated = () => !!keycloak.token;
-// export const logout = () => keycloak.logout({ redirectUri: "http://localhost:5173/logout" });
+// export const logout = () => keycloak.logout({ redirectUri: "http://localhost:5173/logout" });E
