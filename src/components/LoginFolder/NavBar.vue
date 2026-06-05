@@ -44,19 +44,13 @@ onMounted(async () => {
     console.log("HTTP request OK");
 
     let data = resp.data;
-<<<<<<< HEAD
+
     // console.log("data role size", data.role.size);
 
     let role = data.role;
-    let role_sec = null;
-
-    // if (role === "[ROLE_ADMIN]") {
-    if (role.includes("ADMIN") || role_sec.includes("ADMIN")) {
-=======
-    let role = data.role;
+    //    let role_sec = null;
 
     if (role.includes("ADMIN")) {
->>>>>>> https-keycloak
       isAdmin.value = "true";
     }
     console.log(

@@ -8,7 +8,6 @@ import keycloak, {
 } from "../../auth/AuthService";
 import axiosInstance from "../../axios";
 
-<<<<<<< HEAD
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -17,8 +16,6 @@ import interactivePlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import Calendar from "./Calendar.vue";
 
-=======
->>>>>>> https-keycloak
 const adminName = ref("");
 const details = reactive({
   bookusername: "",
@@ -35,7 +32,6 @@ onMounted(async () => {
     console.log("HTTP request OK");
 
     if (data.role.includes("ADMIN")) {
-
       console.log("admin role for user");
     }
     console.log(
@@ -56,46 +52,7 @@ console.log("isAdmin is ", adminName.value);
     v-model:bookuser="keycloak.idTokenParsed.preferred_username"
     :logout="false"
   />
-<<<<<<< HEAD
 
-  <section class="section">
-        <h3> Administrator Jobs</h3>
-    </section>
-    
-    
-
-    <section class="section">
-        <p>Ο διαχειριστής έχει την δυνατότητα να ενημερώσει το νέο εξάμηνο με τις ίδιες κρατήσεις των εργαστηρίων από το 
-            προηγούμενο εξάμηνο. Αυτό μπορεί να γίνει όταν ο χρήστης που κάνει τις κρατήσεις στείλει σε mail το όνομά του 
-            καθώς και το όνομα του εργαστηρίου για το οποίο θέλει να δεσμευτούν οι ίδιες ημέρες και ώρες του εργαστηρίου στο νέο 
-            εξάμηνο.
-            Επίσης ο διαχειριστής έχει την δυνατότητα της διαγραφής όλων των κρατήσεων.
-        </p>
-    </section>
-    
-     <section class="section">
-        <form @submit.prevent="updateLabNewSemester">
-        <fieldset>
-            <legend>Ενημέρωση Εργαστηρίου Νέου Εξαμήνου</legend>
-            <div>
-                <label for="bookusername">Όνομα book user: &nbsp;&nbsp;</label>
-                <input id="bookusername" type="text" placeholder="....όνομα χρήστη κρατήσεων..." v-model="details.bookusername">
-            </div>
-            <div>
-                <label for="labname">Όνομα Εργαστηρίου: &nbsp;&nbsp;</label>
-                <input id="labname" type="text" placeholder=".....ΔΕΠΥ Α ή ΔΕΠΥ Β ή ΔΕΠΥ Γ" v-model="details.labname">
-            </div>
-            
-            <div>
-                <button type="submit" >Αποστολή</button -->
-
-  <button type="button" @click="deleteEvent">Διαγραφή</button>
-                <button type="button" @click="closeDialog">Κλείσιμο</button>
-  </div>
-        </fieldset>
-    </form>
-    </section>
-=======
   <section class="section">
     <h3>Administrator Jobs</h3>
   </section>
@@ -143,5 +100,4 @@ console.log("isAdmin is ", adminName.value);
       </fieldset>
     </form>
   </section>
->>>>>>> https-keycloak
 </template>
