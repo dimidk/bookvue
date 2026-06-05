@@ -66,7 +66,11 @@ onMounted(async () => {
     let data = resp.data;
     let role = data.role;
 
+<<<<<<< HEAD
     if (role.includes("ADMIN]")) {
+=======
+    if (role.includes("ADMIN")) {
+>>>>>>> https-keycloak
       isAdmin.value = "true";
     }
   }
