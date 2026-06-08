@@ -2,18 +2,9 @@
 import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
-<<<<<<< HEAD
   url: 'https://keycloak-dev:9090/',
   realm: 'devrealm',
   clientId: 'book-client'
-=======
-  //  url: 'https://keycloak-dev:9090/',
-   url: 'https://sso.it.ntua.gr/',
-  //  realm: 'devrealm',
-   realm: 'booking',
-  clientId: 'book-client',
-  clientSecret: 'R2dFV@V*4bHVv9d8'
->>>>>>> https-keycloak
 });
 
 export const initKeycloak = async () => {
