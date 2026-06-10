@@ -2,7 +2,8 @@
 import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
-  url: 'https://keycloak-dev:9090/',
+  //url: 'https://keycloak-dev:9090/',
+  url: 'https://localhost:9090',
   realm: 'devrealm',
   clientId: 'book-client'
 });
