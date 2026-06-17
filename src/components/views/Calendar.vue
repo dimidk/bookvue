@@ -42,6 +42,7 @@ const dialogDet = ref(null);
 const dialogManual = ref(null);
 const dialogDel = ref(null);
 const isAdmin = ref("false");
+const userEmail = ref("");
 
 const calendarPlugins = [dayGridPlugin, timeGridPlugin, interactivePlugin];
 const emit = defineEmits(["update:selectedRoom"]);
@@ -65,10 +66,13 @@ onMounted(async () => {
   if (resp.status === 200) {
     let data = resp.data;
     let role = data.role;
+    userEmail.value = data.userEmail;
 
     if (role.includes("ADMIN")) {
       isAdmin.value = "true";
     }
+
+    console.log("In Calendar vue ", isAdmin, userEmail);
   }
 });
 
