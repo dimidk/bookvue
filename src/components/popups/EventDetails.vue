@@ -20,6 +20,9 @@ const title = ref("");
 const start = ref("");
 const end = ref("");
 const isAdmin = ref("false");
+const recursionDeleteFields = ref(false);
+const newStartDate = ref("");
+const newEndDate = ref("");
 
 const eventToShow = reactive({
   id: props.event.id,
@@ -205,29 +208,59 @@ async function updateDate() {
   return retvalue;
 }
 
+//add repeatable event deletion
+
 async function deleteEvent() {
-  try {
-    let response = await axiosInstance.post("/api/delete", eventToShow);
-    console.log("eventToShow details " + eventToShow.id);
-    if (response.status === 200) {
-      console.log("Http Request OK");
+  if (recursionDeleteFields.value === false) {
+    try {
+      let response = await axiosInstance.post("/api/delete", eventToShow);
+      console.log("eventToShow details " + eventToShow.id);
+      if (response.status === 200) {
+        console.log("Http Request OK");
+      } else {
+        console.log("Http Request problem");
+      }
+      let data = response.data;
+      console.log(
+        "response bookuser and eventToDelete bookuser " +
+          data.bookusername +
+          " " +
+          props.event.bookusername,
+      );
+      console.log(
+        "response data id and eventToShow id",
+        data.id,
+        eventToShow.id,
+      );
+
+      if (data.bookusername !== props.bookuser && isAdmin.value === "false") {
+        alert("You are not authorized to delete");
+      }
+    } catch (error) {
+      console.log("error in fetching deletion data ", error);
+    }
+  } else {
+    let recurPostUrl =
+      "/api/repeat_deleting/" + newStartDate.value + "/" + newEndDate.value;
+    console.log(
+      "starting deletion from id:",
+      eventToShow.id,
+      " with starting date:",
+      newStartDate.value,
+      " and ending date:",
+      newEndDate.value,
+    );
+    let resp = await axiosInstance.post(recurPostUrl, eventToShow);
+    if (resp.status === 200) {
+      console.log("repeated deletion done");
     } else {
       console.log("Http Request problem");
     }
-    let data = response.data;
-    console.log(
-      "response bookuser and eventToDelete bookuser " +
-        data.bookusername +
-        " " +
-        props.event.bookusername,
-    );
-    console.log("response data id and eventToShow id", data.id, eventToShow.id);
+    let data = resp.data;
 
     if (data.bookusername !== props.bookuser && isAdmin.value === "false") {
       alert("You are not authorized to delete");
     }
-  } catch (error) {
-    console.log("error in fetching deletion data ", error);
   }
 
   closeDialog();
@@ -256,7 +289,7 @@ defineExpose({ openDialog, closeDialog });
       <hr />
       <form @submit.prevent="updateEvent">
         <fieldset>
-          <legend>Ενημέρωση Κράτησης</legend>
+          <h5>Ενημέρωση Κράτησης</h5>
           <div>
             <label for="changeInfo">Αλλαγή Περιγραφής/Τίτλου: </label>
             <input
@@ -273,6 +306,40 @@ defineExpose({ openDialog, closeDialog });
           <div>
             <label for="changeDateEnd">Αλλαγή Ημερομηνίας Λήξης: </label>
             <input id="changeDateEnd" type="date" v-model="end" />
+          </div>
+
+          <div class="form-check my-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="recursionCheckbox"
+              v-model="recursionDeleteFields"
+            />
+            <label class="form-check-label" for="recursionCheckbox">
+              <h5>Διαγραφή Επαναληπτικής Κράτησης</h5>
+            </label>
+          </div>
+
+          <!-- Recursion Fields -->
+          <div v-show="recursionDeleteFields">
+            <div class="mb-3">
+              <label for="newStartDate"><b>Έναρξη: </b></label>
+              <input
+                type="date"
+                placeholder="Select starting date...."
+                class="form-control"
+                v-model="newStartDate"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="newEndDate"><b>Λήξη: </b></label>
+              <input
+                type="date"
+                placeholder="Select ending date...."
+                class="form-control"
+                v-model="newEndDate"
+              />
+            </div>
           </div>
 
           <div>
