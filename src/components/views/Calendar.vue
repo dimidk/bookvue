@@ -270,8 +270,8 @@ const showManual = () => {
   <section>
     <button @click="newBooking" class="btn"><i>Νέα Κράτηση</i></button>
     <hr />
-    <button @click="deletingEvent" class="btn"><i>Διαγραφή Κράτησης</i></button>
-    <hr />
+    <!-- <button @click="deletingEvent" class="btn"><i>Διαγραφή Κράτησης</i></button>
+    <hr /> -->
     <button @click="showManual" class="btn"><i>Εγχειρίδιο Χρήσης</i></button>
   </section>
 

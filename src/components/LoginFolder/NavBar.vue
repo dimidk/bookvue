@@ -3,7 +3,11 @@ import { onMounted, onUpdated, ref } from "vue";
 //import axios from 'axios';
 import axiosInstance from "../../axios";
 import Error from "./Error.vue";
-import keycloak, { getToken, isAuthenticated } from "../../auth/AuthService";
+import keycloak, {
+  getToken,
+  isAuthenticated,
+  updateToken,
+} from "../../auth/AuthService";
 
 const props = defineProps({
   bookuser: String,
@@ -61,6 +65,13 @@ onMounted(async () => {
     //keycloak.redirectUri("http://localhost:5173/logout");
   }
 });
+
+// if (keycloak.onTokenExpired) {
+//   console.log("token is expired updated");
+//   alert("token must be updated!");
+//   updateToken();
+// }
+
 // const auth  = ref('');
 
 // if (keycloak.authenticated) {
@@ -92,6 +103,11 @@ console.log(
         >Administrator</router-link
       >
     </div>
+    <!-- <div class="nav-container">
+      <button ref="expirationTime"
+      v-if="keycloak.isTokenExpired === true"></button>
+
+    </div> -->
     <div class="auth-buttons">
       <!-- <button v-if="isAuthenticated" @click="logout" class="btn">Logout</button> -->
       <!-- <router-link v-if="auth === true && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link> -->

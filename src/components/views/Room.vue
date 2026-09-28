@@ -8,21 +8,31 @@ import keycloak, { getToken, isAuthenticated } from "../../auth/AuthService";
 
 const lab = ref([]);
 const user = ref("");
-// const userEmail = ref("");
 const selectRoom = ref("");
 const showRoom = ref("");
 const showCalendar = ref(true);
+const labs = new Map();
+//Change 1: add number of seats to display
+const seats = ref(0);
 
 onMounted(async () => {
   let resp = await axiosInstance.get("/labs");
-  const rooms = resp.data;
+  const labinfo = resp.data;
 
-  lab.value = resp.data;
+  console.log("http request /labs :", labinfo);
+
+  labinfo.forEach((element) => {
+    lab.value.push(element.labname);
+    labs.set(element.labname, element.seats);
+  });
+  // console.log("labs are:", labs);
 
   user.value = keycloak.idTokenParsed.preferred_username;
   //   userEmail.value = keycloak.idTokenParsed?.email;
-  console.log("user logged is with mail ", user.value);
+  // console.log("user logged is with mail ", user.value);
 });
+
+// console.log("labinfo hasmap is:", labinfo);
 
 watch(selectRoom, (newRoom) => {
   if (newRoom) {
@@ -30,6 +40,12 @@ watch(selectRoom, (newRoom) => {
     selectRoom.value = "";
 
     console.log("New lab selected:", newRoom);
+  }
+
+  //Change 1: add number of seats in room to display
+  if (labs.has(showRoom.value)) {
+    // console.log("lab and seats: ", showRoom.value, labs.get(showRoom.value));
+    seats.value = labs.get(showRoom.value);
   }
 });
 
@@ -55,6 +71,11 @@ console.log(
     <p>
       <b
         >Εργαστήριο: <u>{{ showRoom }}</u></b
+      >
+      <br />
+      <!-- Change 1: Add number of seats to display -->
+      <b
+        >Αριθμός θέσεων: <u>{{ seats }}</u></b
       >
     </p>
   </section>
