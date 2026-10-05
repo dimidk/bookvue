@@ -19,6 +19,10 @@ const props = defineProps({
   bookuser: String,
 });
 
+// this is for disabling next academic year's reservastions
+const currentYear = new Date().getFullYear();
+
+console.log("current year is:", currentYear);
 const details = reactive({
   id: "",
   bookusername: props.bookuser,
@@ -284,6 +288,14 @@ const showManual = () => {
         left: 'listWeek,timeGridWeek,dayGridMonth',
         center: 'title',
         right: 'prev today next',
+      },
+
+      // this is for disabled next year's reservations
+      validRange: {
+        start: `${currentYear}-10-01`,
+        // start: `2026-10-01`,
+        // end: `2027-10-01`,
+        end: `${currentYear + 1}-10-01`,
       },
 
       selectable: true,
