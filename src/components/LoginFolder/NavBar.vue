@@ -44,21 +44,28 @@ onMounted(async () => {
   // console.log("error in axios get" + error);
   // });
   const resp = await axiosInstance.get("/user");
+
+  //Change 2: not allow users that don't exist in db to use the app
   if (resp.status === 200) {
     console.log("HTTP request OK");
 
     let data = resp.data;
-    let role = data.role;
+    if (data === null) {
+      alert("You are not authorized user using Booking Application!!");
+      keycloak.logout();
+    } else {
+      let role = data.role;
 
-    if (role.includes("ADMIN")) {
-      isAdmin.value = "true";
+      if (role.includes("ADMIN")) {
+        isAdmin.value = "true";
+      }
+      console.log(
+        "response data from ok http " + data.username + " " + data.role,
+      );
+      console.log("isAdmin is " + isAdmin.value);
+
+      emit("update:bookuser", data.username);
     }
-    console.log(
-      "response data from ok http " + data.username + " " + data.role,
-    );
-    console.log("isAdmin is " + isAdmin.value);
-
-    emit("update:bookuser", data.username);
   } else {
     //keycloak.clearToken();
     keycloak.logout();
