@@ -39,22 +39,48 @@ onMounted(async () => {
 
   user.value = keycloak.idTokenParsed.preffered_username;
 
+  //Change 2: not allow users that don't exist in db to use the app
   const resp = await axiosInstance.get("/user");
   if (resp.status === 200) {
-    console.log("query OK");
+    console.log("HTTP request OK");
+
+    let data = resp.data;
+    if (data === null) {
+      alert("You are not authorized user using Booking Application!!");
+      keycloak.logout();
+    } else {
+      let role = data.role;
+
+      if (role.includes("ADMIN")) {
+        isAdmin.value = "true";
+      }
+      console.log(
+        "response data from ok http " + data.username + " " + data.role,
+      );
+      console.log("isAdmin is " + isAdmin.value);
+      console.log("user and authentication:", user.value, auth);
+    }
+  } else {
+    //keycloak.clearToken();
+    keycloak.logout();
+    //keycloak.redirectUri("http://localhost:5173/logout");
   }
-  let data = resp.data;
-  // if (data.role.split("-")[1] === 'ADMIN') {
+
+  // if (resp.status === 200) {
+  //   console.log("query OK");
+  // }
+  // let data = resp.data;
+  // // if (data.role.split("-")[1] === 'ADMIN') {
+  // //   isAdmin.value = true;
+  // // }
+
+  // if (data.role.includes("ADMIN")) {
   //   isAdmin.value = true;
   // }
 
-  if (data.role.includes("ADMIN")) {
-    isAdmin.value = true;
-  }
-
-  // isAuthenticated.value = true;
-  // user.value = data.username;
-  console.log("user and authentication:", user.value, auth);
+  // // isAuthenticated.value = true;
+  // // user.value = data.username;
+  // console.log("user and authentication:", user.value, auth);
 });
 
 // function logoutUser() {

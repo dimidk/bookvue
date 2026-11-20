@@ -60,11 +60,16 @@ console.log(
     <p>
       <b>Χρήστης: </b><i>{{ keycloak.idTokenParsed.preferred_username }}</i>
     </p>
-    <!-- <p>
+    <p>
       <b
-        >Εργαστήριο / Αίθουσα : <u>{{ showRoom }}</u></b
+        >Εργαστήριο: <u>{{ showRoom }}</u></b
       >
-    </p> -->
+      <br />
+      <!-- Change 1: Add number of seats to display -->
+      <b
+        >Αριθμός θέσεων: <u>{{ seats }}</u></b
+      >
+    </p>
   </section>
   <section>
     <div class="nav-bar">
@@ -85,27 +90,7 @@ console.log(
         <!-- <button>
                 <router-link v-if="selectRoom !== ''" v-show="!showCalendar" to="/calendar">Calendar</router-link>
             </button> -->
-        <div class="room-type">
-          <RoomType
-            v-if="showRoom != '' && roomType === 'Εργαστήριο'"
-            :selectedRoom="showRoom"
-            :roomType="roomType"
-          />
-          <RoomType
-            v-else="showRoom != '' && roomType === 'Αίθουσα'"
-            :selectedRoom="showRoom"
-            :roomType="roomType"
-          />
-        </div>
-
-        <!-- <div class="calendar-container">
-          <Calendar
-            v-if="showRoom !== ''"
-            :selectedRoom="showRoom"
-            :roomType="roomType"
-            :bookuser="user"
-          /> -->
-        <!-- add room for rent-->
+        <!-- add userEmail for getting email for ticketing -->
         <div class="calendar-container">
           <Calendar
             v-if="showRoom !== ''"
