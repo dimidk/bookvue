@@ -22,10 +22,6 @@ const props = defineProps({
   bookuser: String,
 });
 
-// this is for disabling next academic year's reservastions
-const currentYear = new Date().getFullYear();
-
-console.log("current year is:", currentYear);
 const details = reactive({
   id: "",
   bookusername: props.bookuser,
@@ -50,7 +46,6 @@ const dialogManual = ref(null);
 const dialogDel = ref(null);
 const dialogRent = ref(null);
 const isAdmin = ref("false");
-const userEmail = ref("");
 
 const calendarPlugins = [dayGridPlugin, timeGridPlugin, interactivePlugin];
 // const emit = defineEmits(["update:selectedRoom"]);
@@ -78,13 +73,10 @@ onMounted(async () => {
   if (resp.status === 200) {
     let data = resp.data;
     let role = data.role;
-    userEmail.value = data.userEmail;
 
     if (role.includes("ADMIN")) {
       isAdmin.value = "true";
     }
-
-    console.log("In Calendar vue ", isAdmin, userEmail);
   }
 });
 
@@ -303,14 +295,6 @@ const showManual = () => {
         left: 'listWeek,timeGridWeek,dayGridMonth',
         center: 'title',
         right: 'prev today next',
-      },
-
-      // this is for disabled next year's reservations
-      validRange: {
-        start: `${currentYear}-10-01`,
-        // start: `2026-10-01`,
-        // end: `2027-10-01`,
-        end: `${currentYear + 1}-10-01`,
       },
 
       selectable: true,

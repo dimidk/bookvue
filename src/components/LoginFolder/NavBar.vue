@@ -3,11 +3,7 @@ import { onMounted, onUpdated, ref } from "vue";
 //import axios from 'axios';
 import axiosInstance from "../../axios";
 import Error from "./Error.vue";
-import keycloak, {
-  getToken,
-  isAuthenticated,
-  updateToken,
-} from "../../auth/AuthService";
+import keycloak, { getToken, isAuthenticated } from "../../auth/AuthService";
 
 const props = defineProps({
   bookuser: String,
@@ -44,41 +40,31 @@ onMounted(async () => {
   // console.log("error in axios get" + error);
   // });
   const resp = await axiosInstance.get("/user");
-
-  //Change 2: not allow users that don't exist in db to use the app
   if (resp.status === 200) {
     console.log("HTTP request OK");
 
     let data = resp.data;
-    if (data === null) {
-      alert("You are not authorized user using Booking Application!!");
-      keycloak.logout();
-    } else {
-      let role = data.role;
 
-      if (role.includes("ADMIN")) {
-        isAdmin.value = "true";
-      }
-      console.log(
-        "response data from ok http " + data.username + " " + data.role,
-      );
-      console.log("isAdmin is " + isAdmin.value);
+    // console.log("data role size", data.role.size);
 
-      emit("update:bookuser", data.username);
+    let role = data.role;
+    //    let role_sec = null;
+
+    if (role.includes("ADMIN")) {
+      isAdmin.value = "true";
     }
+    console.log(
+      "response data from ok http " + data.username + " " + data.role,
+    );
+    console.log("isAdmin is " + isAdmin.value);
+
+    emit("update:bookuser", data.username);
   } else {
     //keycloak.clearToken();
     keycloak.logout();
     //keycloak.redirectUri("http://localhost:5173/logout");
   }
 });
-
-// if (keycloak.onTokenExpired) {
-//   console.log("token is expired updated");
-//   alert("token must be updated!");
-//   updateToken();
-// }
-
 // const auth  = ref('');
 
 // if (keycloak.authenticated) {
@@ -110,11 +96,6 @@ console.log(
         >Administrator</router-link
       >
     </div>
-    <!-- <div class="nav-container">
-      <button ref="expirationTime"
-      v-if="keycloak.isTokenExpired === true"></button>
-
-    </div> -->
     <div class="auth-buttons">
       <!-- <button v-if="isAuthenticated" @click="logout" class="btn">Logout</button> -->
       <!-- <router-link v-if="auth === true && logout === false" to="/logout" class="btn">Αποσύνδεση</router-link> -->
