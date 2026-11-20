@@ -25,39 +25,6 @@ const recursionFields = ref(false);
 //const emit = defineEmits(['update:details']);
 
 onMounted(() => {
-  //   flatpickr("#startDateFromCal", {
-  //   enableTime: true,
-  //   time_24hr: true,
-  //   dateFormat: "d-m-Y H:i",
-  //   defaultDate: props.details.start || null,
-  //   // static: false,
-  //   allowInput: true,
-  //   appendTo: document.querySelector('dialog'),
-  //   static: true,
-  //   // appendTo: document.body
-  // });
-  // flatpickr("#endDateFromCal", {
-  //   enableTime: true,
-  //   time_24hr: true,
-  //   dateFormat: "d-m-Y H:i",
-  //   defaultDate: props.details.end || null,
-  //   allowInput: true,
-  //   appendTo: document.querySelector('dialog'),
-  //   static: true,
-  // });
-  // flatpickr("#newStartDate", {
-  //   dateFormat: "d-m-Y",
-  //   allowInput: true,
-  //   appendTo: document.querySelector('dialog'),
-  //   static: true,
-  // });
-  // flatpickr("#newEndDate", {
-  //   dateFormat: "d-m-Y",
-  //   allowInput: true,
-  //   appendTo: document.querySelector('dialog'),
-  //   static: true,
-  // });
-
   newStartDate.value;
   newEndDate.value;
   // emit('update:details'.props.details);
@@ -83,16 +50,6 @@ const newBooking = reactive({
 
   labusername: "",
 });
-console.log(
-  "newbooking " +
-    newBooking.bookusername +
-    " " +
-    newBooking.labname +
-    " " +
-    newBooking.start +
-    " " +
-    newBooking.end,
-);
 
 //console.log("newbooking " + props.bookuser + " " + props.details.end);
 
