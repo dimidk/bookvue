@@ -5,47 +5,39 @@ import NavBar from "../LoginFolder/NavBar.vue";
 import Header from "../LoginFolder/Header.vue";
 import axiosInstance from "../../axios";
 import keycloak, { getToken, isAuthenticated } from "../../auth/AuthService";
+import RoomType from "./RoomType.vue";
+// import CalendarType from "./CalendarType.vue";
 
 const lab = ref([]);
 const user = ref("");
 const selectRoom = ref("");
 const showRoom = ref("");
 const showCalendar = ref(true);
-const labs = new Map();
-//Change 1: add number of seats to display
-const seats = ref(0);
+const roomType = ref("");
 
 onMounted(async () => {
   let resp = await axiosInstance.get("/labs");
-  const labinfo = resp.data;
+  const rooms = resp.data;
 
-  console.log("http request /labs :", labinfo);
-
-  labinfo.forEach((element) => {
-    lab.value.push(element.labname);
-    labs.set(element.labname, element.seats);
-  });
-  // console.log("labs are:", labs);
+  lab.value = resp.data;
 
   user.value = keycloak.idTokenParsed.preferred_username;
-  //   userEmail.value = keycloak.idTokenParsed?.email;
-  // console.log("user logged is with mail ", user.value);
+  console.log("user logged is ", user.value);
 });
-
-// console.log("labinfo hasmap is:", labinfo);
 
 watch(selectRoom, (newRoom) => {
   if (newRoom) {
     showRoom.value = newRoom;
     selectRoom.value = "";
 
-    console.log("New lab selected:", newRoom);
-  }
+    if (showRoom.value.includes("TMHMA")) {
+      //TMHMA είναι με αγγλικούς χαρακτήρες
+      roomType.value = "Αίθουσα";
+    } else {
+      roomType.value = "Εργαστήριο";
+    }
 
-  //Change 1: add number of seats in room to display
-  if (labs.has(showRoom.value)) {
-    // console.log("lab and seats: ", showRoom.value, labs.get(showRoom.value));
-    seats.value = labs.get(showRoom.value);
+    console.log("New lab selected and type is :", newRoom, roomType);
   }
 });
 
@@ -103,8 +95,10 @@ console.log(
           <Calendar
             v-if="showRoom !== ''"
             :selectedRoom="showRoom"
+            :roomType="roomType"
             :bookuser="user"
           />
+
           <!-- class="calendar-container" -->
           <!-- <h4> {{ selectRoom }} </h4> -->
         </div>

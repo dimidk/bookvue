@@ -2,13 +2,10 @@
 import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
-  //  url: 'https://keycloak-dev:9090/',
-  // url: 'https://localhost:9090',
-   url: 'https://sso.it.ntua.gr/',
-  //  realm: 'devrealm',
-   realm: 'booking',
-  clientId: 'book-client',
-  clientSecret: 'R2dFV@V*4bHVv9d8'
+  //url: 'https://keycloak-dev:9090/',
+  url: 'https://localhost:9090',
+  realm: 'devrealm',
+  clientId: 'book-client'
 });
 
 export const initKeycloak = async () => {
@@ -19,11 +16,7 @@ export const initKeycloak = async () => {
     const authenticated = await keycloak.init({
       onLoad: 'login-required',
       flow: 'standard',
-      // redirectUri: 'https://147.102.246.150:5173',
-      // redirectUri: 'https://localhost:5173',
-      // redirectUri: 'https://booking.ntua.gr:5173',
-      // redirectUri: 'https://147.102.246.46:5173',
-      redirectUri: 'https://bookinglabs.central.ntua.gr', //v10 deploy
+      redirectUri: 'https://147.102.246.150:5174',
       //onLoad: 'check-sso',
       pkceMethod: 'S256',
       checkLoginIframe: false,
@@ -89,9 +82,8 @@ export const doLogin = keycloak.login;
 // });
 
 export const isLoggedIn = () => !!keycloak.token;
-// export const LogOut = () => keycloak.logout({redirectUri: "https://localhost:5173"});
-// export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.246.46:5173"});
-export const LogOut = () => keycloak.logout({redirectUri: "https://bookinglabs.central.ntua.gr"});
+export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.246.150:5174"});
+// export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.75.206:5173"});
 // export const LogOut = () => keycloak.logout({redirectUri: "https://:5173"});
 
 

@@ -7,6 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactivePlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import CreateDialog from "../popups/CreateDialog.vue";
+import RentDialog from "../popups/RentDialog.vue";
 import EventDetails from "../popups/EventDetails.vue";
 import HelpPage from "../popups/HelpPage.vue";
 import DeleteDialog from "../popups/DeleteDialog.vue";
@@ -16,6 +17,8 @@ import axiosInstance from "../../axios";
 
 const props = defineProps({
   selectedRoom: String,
+  //add for rooms rent
+  roomType: String,
   bookuser: String,
 });
 
@@ -45,11 +48,14 @@ const dialog = ref(null);
 const dialogDet = ref(null);
 const dialogManual = ref(null);
 const dialogDel = ref(null);
+const dialogRent = ref(null);
 const isAdmin = ref("false");
 const userEmail = ref("");
 
 const calendarPlugins = [dayGridPlugin, timeGridPlugin, interactivePlugin];
-const emit = defineEmits(["update:selectedRoom"]);
+// const emit = defineEmits(["update:selectedRoom"]);
+//add for rooms rent
+const emit = defineEmits(["update:selectedRoom", "update:roomType"]);
 
 const url = "/labs/" + props.selectedRoom;
 const fullcalendar = ref(null);
@@ -64,6 +70,8 @@ onMounted(async () => {
   dialogDel.value;
 
   emit("update:selectedRoom", props.selectedRoom);
+  //add for rooms rent
+  emit("update:roomType", props.roomType);
   //calAPI.render();
 
   const resp = await axiosInstance.get("/user");
@@ -205,6 +213,10 @@ const deletingEvent = () => {
   dialogDel.value.openDialog();
 };
 
+const rentEvent = () => {
+  dialogRent.value.openDialog();
+};
+
 function underConstruction(arg) {}
 
 const showComments = (arg) => {
@@ -271,11 +283,14 @@ const showManual = () => {
   />
   <HelpPage ref="dialogManual" />
   <DeleteDialog ref="dialogDel" :bookuser="bookuser" />
+  <RentDialog ref="dialogRent" :bookuser="bookuser" :details="eventDetails" />
   <section>
     <button @click="newBooking" class="btn"><i>Νέα Κράτηση</i></button>
     <hr />
-    <!-- <button @click="deletingEvent" class="btn"><i>Διαγραφή Κράτησης</i></button>
-    <hr /> -->
+    <button @click="deletingEvent" class="btn"><i>Διαγραφή Κράτησης</i></button>
+    <hr />
+    <button @click="rentEvent" class="btn"><i>Νέα Ενοικίαση</i></button>
+    <hr />
     <button @click="showManual" class="btn"><i>Εγχειρίδιο Χρήσης</i></button>
   </section>
 

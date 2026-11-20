@@ -8,6 +8,14 @@ import keycloak, {
 } from "../../auth/AuthService";
 import axiosInstance from "../../axios";
 
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
+import interactivePlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
+import Calendar from "./Calendar.vue";
+
 const adminName = ref("");
 const details = reactive({
   bookusername: "",
@@ -44,6 +52,7 @@ console.log("isAdmin is ", adminName.value);
     v-model:bookuser="keycloak.idTokenParsed.preferred_username"
     :logout="false"
   />
+
   <section class="section">
     <h3>Administrator Jobs</h3>
   </section>
