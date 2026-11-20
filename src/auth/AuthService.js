@@ -16,7 +16,7 @@ export const initKeycloak = async () => {
     const authenticated = await keycloak.init({
       onLoad: 'login-required',
       flow: 'standard',
-      redirectUri: 'https://147.102.246.150:5173',
+      redirectUri: 'https://147.102.246.150:5174',
       //onLoad: 'check-sso',
       pkceMethod: 'S256',
       checkLoginIframe: false,
@@ -82,7 +82,7 @@ export const doLogin = keycloak.login;
 // });
 
 export const isLoggedIn = () => !!keycloak.token;
-export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.246.150:5173"});
+export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.246.150:5174"});
 // export const LogOut = () => keycloak.logout({redirectUri: "https://147.102.75.206:5173"});
 // export const LogOut = () => keycloak.logout({redirectUri: "https://:5173"});
 

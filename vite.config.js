@@ -9,7 +9,7 @@ export default defineConfig({
    server: {
     host: '147.102.246.150',
     // host: '147.102.75.206',
-    port: 5173,
+    port: 5174,
     https: {
       // key: fs.readFileSync('/home/ltsp/147.102.246.150+2-key.pem'),
       // cert: fs.readFileSync('/home/ltsp/147.102.246.150+2.pem')

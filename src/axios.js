@@ -4,17 +4,17 @@ import  keycloak, {getToken, isAuthenticated}  from './auth/AuthService';
 
 // Create a global Axios instance with default configuration
 const axiosInstance = axios.create({
-    baseURL: 'https://147.102.246.150:8585', // Base URL for all requests
+    baseURL: 'https://147.102.246.150:8595', // Base URL for all requests
     data: {
       client_id: 'book-client', // create client in keycloak with same name
     //   client_secret: 'Rt4lHTYr3buoy4yW4DVuC7ilqswnHZew',
-    //    client_secret: 's0yGZymSESFWw9OK5Cl7lc5LwwRjgGAP',
+      client_secret: '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',
       grant_type: 'client_credentials',
     },
     withCredentials: true, // Send cookies with requests
     headers: {
         'Authorization': 'Bearer',
-        // 'Content-Type': 'application/json', // Default content type
+        'Content-Type': 'application/json', // Default content type
      }
 });
 

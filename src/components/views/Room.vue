@@ -6,13 +6,14 @@ import Header from "../LoginFolder/Header.vue";
 import axiosInstance from "../../axios";
 import keycloak, { getToken, isAuthenticated } from "../../auth/AuthService";
 import RoomType from "./RoomType.vue";
+// import CalendarType from "./CalendarType.vue";
 
 const lab = ref([]);
 const user = ref("");
 const selectRoom = ref("");
 const showRoom = ref("");
 const showCalendar = ref(true);
-const roomType = ref("Εργαστήριο");
+const roomType = ref("");
 
 onMounted(async () => {
   let resp = await axiosInstance.get("/labs");
@@ -29,7 +30,14 @@ watch(selectRoom, (newRoom) => {
     showRoom.value = newRoom;
     selectRoom.value = "";
 
-    console.log("New lab selected:", newRoom);
+    if (showRoom.value.includes("TMHMA")) {
+      //TMHMA είναι με αγγλικούς χαρακτήρες
+      roomType.value = "Αίθουσα";
+    } else {
+      roomType.value = "Εργαστήριο";
+    }
+
+    console.log("New lab selected and type is :", newRoom, roomType);
   }
 });
 
@@ -52,11 +60,11 @@ console.log(
     <p>
       <b>Χρήστης: </b><i>{{ keycloak.idTokenParsed.preferred_username }}</i>
     </p>
-    <p>
+    <!-- <p>
       <b
         >Εργαστήριο / Αίθουσα : <u>{{ showRoom }}</u></b
       >
-    </p>
+    </p> -->
   </section>
   <section>
     <div class="nav-bar">
@@ -90,12 +98,22 @@ console.log(
           />
         </div>
 
+        <!-- <div class="calendar-container">
+          <Calendar
+            v-if="showRoom !== ''"
+            :selectedRoom="showRoom"
+            :roomType="roomType"
+            :bookuser="user"
+          /> -->
+        <!-- add room for rent-->
         <div class="calendar-container">
           <Calendar
             v-if="showRoom !== ''"
             :selectedRoom="showRoom"
+            :roomType="roomType"
             :bookuser="user"
           />
+
           <!-- class="calendar-container" -->
           <!-- <h4> {{ selectRoom }} </h4> -->
         </div>
