@@ -4,7 +4,11 @@ import  keycloak, {getToken, isAuthenticated}  from './auth/AuthService';
 
 // Create a global Axios instance with default configuration
 const axiosInstance = axios.create({
-    baseURL: 'https://147.102.246.150:8585', // Base URL for all requests
+    // baseURL: 'https://localhost:8585', // Base URL for all request
+    // baseURL: 'https://147.102.246.150:9000',
+    // baseURL: 'https://booking.ntua.gr:9000',
+    // baseURL: 'https://147.102.246.46:9000',
+    baseURL: 'https://bookinglabs.central.ntua.gr:9000', //v10 deploy
     data: {
       client_id: 'book-client', // create client in keycloak with same name
     //   client_secret: 'Rt4lHTYr3buoy4yW4DVuC7ilqswnHZew',
