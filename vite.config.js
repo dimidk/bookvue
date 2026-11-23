@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [vue()],
 
    server: {
-    host: '147.102.246.150',
+    // host: '147.102.246.150',
     // host: '147.102.75.206',
-    port: 5174,
+    // port: 5174,
     https: {
       // key: fs.readFileSync('/home/ltsp/147.102.246.150+2-key.pem'),
       // cert: fs.readFileSync('/home/ltsp/147.102.246.150+2.pem')
